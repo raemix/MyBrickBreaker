@@ -15,6 +15,6 @@ public:
 	static constexpr int w = 20;
 	static constexpr int h = 20;
 	int vx = 1;
-	int vy = 1;
+	int vy = 2;
 
 };

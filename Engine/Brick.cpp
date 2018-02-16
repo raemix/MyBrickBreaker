@@ -16,12 +16,19 @@ void Brick::Update(Ball& in_ball)
 		if (isColliding(x, y, w, h, ball.x, ball.y, ball.w, ball.h)) {
 			
 			destroyed = true;
-			if (ball.x + ball.w <= x +1)
+			//ball collides with LEFT
+			if (ball.x + ball.w <= x + abs(ball.vy))
 				ball.vx = 0 - abs(ball.vx);
-			if (ball.x + 1 >= x + w)
+
+			//ball collides with RIGHT
+			if (ball.x + abs(ball.vx) >= x + w)
 				ball.vx = 0 + abs(ball.vx);
-			if (ball.y + 1 >= y + h)
+
+			//ball collides with BOTTOM
+			if (ball.y + abs(ball.vy)  >= y + h)
 				ball.vy = 0 + abs(ball.vy);
+
+			//ball collides with TOP
 			if (ball.y + ball.h <= y + 1)
 				ball.vy = 0 - abs(ball.vy);
 		}

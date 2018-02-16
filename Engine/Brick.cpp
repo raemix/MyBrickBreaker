@@ -39,7 +39,7 @@ void Brick::Update(Ball& in_ball)
 void Brick::Draw(Graphics& gfx)
 {
 	if (!destroyed)
-	gfx.DrawRectByDim(x, y, w, h);
+	gfx.DrawRectByDim(x, y, w, h, c);
 }
 
 bool Brick::isColliding(int x0, int y0, int w0, int h0, int x1, int y1, int w1, int h1)

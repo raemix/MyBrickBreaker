@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "Ball.h"
 #include "Brick.h"
+#include "Paddle.h"
 
 class Game
 {

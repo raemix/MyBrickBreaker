@@ -23,3 +23,8 @@ void Ball::Update()
 		vy = 0 - vy;
 	}
 }
+
+void Ball::Draw(Graphics& gfx)
+{
+	gfx.DrawRectByDim((int)x, (int)y, w, h, c);
+}

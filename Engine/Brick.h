@@ -20,4 +20,5 @@ public:
 	static constexpr int w = 60;
 	static constexpr int h = 30;
 	bool destroyed = false;
+	Color c{ 0,0,255 };
 };

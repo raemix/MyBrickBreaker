@@ -316,9 +316,9 @@ void Graphics::PutPixel( int x,int y,Color c )
 	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
 }
 
-void Graphics::DrawRectByDim(int in_x, int in_y, int in_w, int in_h)
+void Graphics::DrawRectByDim(int in_x, int in_y, int in_w, int in_h, Color in_c)
 {
-	Color c{ 255,255,0 };
+	Color c = in_c;
 	int x = in_x;
 	int y = in_y;
 	int w = in_w;

@@ -133,7 +133,7 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	if (ballDraw) {
-		Game::DrawRect((int)ball.x, (int)ball.y, ball.w, ball.h, 255, 0, 0);
+		ball.Draw(gfx);
 		Game::DrawRect(padX, padY, padW, padH, 0, 255, 0);
 		for (int i = 0; i < nBricks; i++) {
 			bricks[i].Draw(gfx);

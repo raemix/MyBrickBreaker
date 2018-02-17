@@ -57,10 +57,10 @@ void Game::UpdateModel()
 	if (!paused) {
 		//Grab input from user
 		if (wnd.kbd.KeyIsPressed('A')) {
-			padX -= padSpeed;
+			paddle.x -= padSpeed;
 		}
 		else if (wnd.kbd.KeyIsPressed('D')) {
-			padX += padSpeed;
+			paddle.x += padSpeed;
 		}
 
 
@@ -74,28 +74,43 @@ void Game::UpdateModel()
 		}
 
 		//check if coliding with Paddle
-		if (ball.y + ball.h >= padY  && ball.x >= padX - ball.w && ball.x + ball.w <= padX + padW + ball.w ) {
+		if (ball.y + ball.h >= paddle.y  && ball.x >= paddle.x - ball.w && ball.x + ball.w <= paddle.x + paddle.w + ball.w ) {
 			//if ball is on left side of paddle, decrease ball.vx
-			if (ball.x >= padX - ball.w + 2 && ball.x <= padX + int(padW / 3) - 1) {
-				ball.vx = 0 - abs(ball.vx);
-				//ball.vy += 1;
+			if (ball.x >= paddle.x - ball.w + 2 && ball.x <= paddle.x + int(paddle.w / 4) - 1) {
+				if (ball.vx < 0) {
+
+					ball.vx = -0.25 - abs(ball.vx);
+				}
+				else {
+					ball.vx = 0 - ball.vx;
+				}
 				ball.vy = 0 - ball.vy;
-				padW -= padFadeRate;
-				padX += int(padFadeRate / 2);
-				
 			}
 			//if ball collides with right side of paddle, increase ball.vx
-			else if (ball.x >= padX + padW - int(padW/3) + 1 && ball.x <= padX + padW) {
-				ball.vx = 0 + abs(ball.vx);
+			else if (ball.x >= paddle.x + paddle.w - int(paddle.w/4) + 1 && ball.x <= paddle.x + paddle.w) {
+				if (ball.vx > 0) {
+					ball.vx = 0.25 + abs(ball.vx);
+				}
+				else {
+					ball.vx = 0 - ball.vx;
+				}
+
+				
 				ball.vy = 0 - ball.vy;
-				padW -= padFadeRate;
-				padX += int(padFadeRate / 2);
 			}
 			//if ball is in the exact center of paddle send as normal
 			else {
 				ball.vy = 0 - ball.vy;
-				padW -= padFadeRate;
-				padX += int(padFadeRate / 2);
+				if (ball.vx > 0) {
+					ball.vx = -0.25 + abs(ball.vx);
+
+
+				}
+				else {
+					ball.vx = 0.25 - abs(ball.vx);
+
+				}
+				
 			}
 
 		}
@@ -106,13 +121,13 @@ void Game::UpdateModel()
 		if (ball.y + ball.h >= gfx.ScreenHeight - 2) {
 			ballDraw = false;
 		}
-		if (padX <= 0) {
-			padX = 0;
+		if (paddle.x <= 0) {
+			paddle.x = 0;
 		}
-		if (padX >= gfx.ScreenWidth - padW - 1) {
-			padX = gfx.ScreenWidth - padW - 1;
+		if (paddle.x >= gfx.ScreenWidth - paddle.w - 1) {
+			paddle.x = gfx.ScreenWidth - paddle.w - 1;
 		}
-		if (padW < 2) {
+		if (paddle.w < 2) {
 			ballDraw = false;
 		}
 
@@ -126,8 +141,8 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	if (ballDraw) {
+		paddle.Draw(gfx);
 		ball.Draw(gfx);
-		Game::DrawRect(padX, padY, padW, padH, 0, 255, 0);
 		for (int i = 0; i < nBricks; i++) {
 			bricks[i].Draw(gfx);
 		}
@@ -137,14 +152,6 @@ void Game::ComposeFrame()
 	}
 }
 
-void Game::DrawRect(int x, int y, int w, int h, int r, int g, int b)
-{
-	for (int i = 0; i < h; i++) {
-		for (int row = 0; row < w; row++) {
-			gfx.PutPixel(x + row, y + i, r, g, b);
-		}
-	}
-}
 
 void Game::gameOver()
 {

@@ -13,7 +13,7 @@ void Brick::Update(Ball& in_ball)
 {
 	Ball& ball = in_ball;
 	if (!destroyed) {
-		if (isColliding(x, y, w, h, ball.x, ball.y, ball.w, ball.h)) {
+		if (isColliding((int)x, (int)y, (int)w, (int)h, (int)ball.x, (int)ball.y, (int)ball.w, (int)ball.h)) {
 			
 			destroyed = true;
 			//ball collides with LEFT

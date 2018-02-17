@@ -71,6 +71,7 @@ private:
 public:
 	Ball ball;
 	Brick bricks[72];
+	Paddle paddle;
 	/********************************/
 
 };

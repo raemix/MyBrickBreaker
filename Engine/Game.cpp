@@ -77,29 +77,22 @@ void Game::UpdateModel()
 		if (ball.y + ball.h >= padY  && ball.x >= padX - ball.w && ball.x + ball.w <= padX + padW + ball.w ) {
 			//if ball is on left side of paddle, decrease ball.vx
 			if (ball.x >= padX - ball.w + 2 && ball.x <= padX + int(padW / 3) - 1) {
-				if (ball.vx > 0)
-					ball.vx = 0 - ball.vx;
-				if (ball.vx == 0)
-					ball.vx = -1;
+				ball.vx = 0 - abs(ball.vx);
 				//ball.vy += 1;
 				ball.vy = 0 - ball.vy;
 				padW -= padFadeRate;
 				padX += int(padFadeRate / 2);
+				
 			}
 			//if ball collides with right side of paddle, increase ball.vx
 			else if (ball.x >= padX + padW - int(padW/3) + 1 && ball.x <= padX + padW) {
-				if (ball.vx < 0)
-					ball.vx = 0 - ball.vx;
-				if (ball.vx == 0)
-					ball.vx = 1;
+				ball.vx = 0 + abs(ball.vx);
 				ball.vy = 0 - ball.vy;
 				padW -= padFadeRate;
 				padX += int(padFadeRate / 2);
 			}
 			//if ball is in the exact center of paddle send as normal
 			else {
-				if (ball.vx == 0)
-					ball.vx = 1;
 				ball.vy = 0 - ball.vy;
 				padW -= padFadeRate;
 				padX += int(padFadeRate / 2);

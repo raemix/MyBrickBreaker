@@ -32,6 +32,7 @@ Game::Game( MainWindow& wnd )
 
 			bricks[b].Init( brickStartX + j * Brick::w + (2 * j), brickStartY + i * Brick::h + (i * 2) );
 			b++;
+			bricksRemaining++;
 		}
 	}
 }
@@ -55,6 +56,13 @@ void Game::UpdateModel()
 	}
 
 	if (!paused) {
+		
+		//Check for Win
+		if (bricksRemaining == 0)
+		{
+			return;
+		}
+
 		//Grab input from user
 		if (wnd.kbd.KeyIsPressed('A')) {
 			paddle.x -= padSpeed;
@@ -66,53 +74,35 @@ void Game::UpdateModel()
 
 
 		//Update position
-
 		ball.x += ball.vx;
 		ball.y += ball.vy;
+
 		for (int i = 0; i < nBricks; i++) {
 			bricks[i].Update(ball);
 		}
 
 		//check if coliding with Paddle
 		if (ball.y + ball.h >= paddle.y  && ball.x >= paddle.x - ball.w && ball.x + ball.w <= paddle.x + paddle.w + ball.w ) {
-			//if ball is on left side of paddle, decrease ball.vx
-			if (ball.x >= paddle.x - ball.w + 2 && ball.x <= paddle.x + int(paddle.w / 4) - 1) {
-				if (ball.vx < 0) {
-
-					ball.vx = -0.25 - abs(ball.vx);
-				}
-				else {
-					ball.vx = 0 - ball.vx;
-				}
-				ball.vy = 0 - ball.vy;
-			}
-			//if ball collides with right side of paddle, increase ball.vx
-			else if (ball.x >= paddle.x + paddle.w - int(paddle.w/4) + 1 && ball.x <= paddle.x + paddle.w) {
-				if (ball.vx > 0) {
-					ball.vx = 0.25 + abs(ball.vx);
-				}
-				else {
-					ball.vx = 0 - ball.vx;
-				}
-
+			
+			//if ball is on left side of paddle, send ball left
+			if (ball.x >= paddle.x - ball.w + 2 && ball.x <= paddle.x + int(paddle.w / 3) - 1) {
+					ball.vx = -1;
 				
-				ball.vy = 0 - ball.vy;
 			}
+			
+			//if ball collides with right side of paddle, send ball right
+			else if (ball.x >= paddle.x + paddle.w - int(paddle.w/3) + 1 && ball.x <= paddle.x + paddle.w) {
+					ball.vx = 1;
+				
+			}
+			
 			//if ball is in the exact center of paddle send as normal
 			else {
-				ball.vy = 0 - ball.vy;
-				if (ball.vx > 0) {
-					ball.vx = -0.25 + abs(ball.vx);
+				ball.vx *= .5;
 
-
-				}
-				else {
-					ball.vx = 0.25 - abs(ball.vx);
-
-				}
-				
 			}
-
+			
+			ball.vy *= -1;
 		}
 
 		//Check for out-of-bounds

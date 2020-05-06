@@ -27,6 +27,8 @@
 #include "Brick.h"
 #include "Paddle.h"
 
+static int bricksRemaining;
+
 class Game
 {
 public:
